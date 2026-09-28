@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00d2d3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Yucut">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yucut - Video Editor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="video-style.css">
+    <script src="theme.js"></script>
+</head>
+<body>
+
+<div class="video-app">
+
+    <!-- ================= HEADER ================= -->
+    <header class="ve-header">
+        <div class="ve-header-left">
+            <button class="ve-icon-btn" id="ve-back" title="Back">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <div class="ve-logo">
+                <i class="fa-solid fa-scissors"></i> <span>Yucut</span>
+            </div>
+            <span class="ve-sep">|</span>
+            <span class="ve-title">Video Editor</span>
+        </div>
+        <div class="ve-header-right">
+            <!-- THEME SWITCHER -->
+            <div class="theme-switcher">
+                <button class="theme-btn" id="theme-btn" title="Change Theme">
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+            </div>
+
+            <button class="ve-icon-btn" id="ve-undo" title="Undo">
+                <i class="fa-solid fa-rotate-left"></i>
+            </button>
+            <button class="ve-icon-btn" id="ve-redo" title="Redo">
+                <i class="fa-solid fa-rotate-right"></i>
+            </button>
+            <button class="ve-primary-btn" id="ve-export">
+                <i class="fa-solid fa-download"></i> Export
+            </button>
+        </div>
+    </header>
+
+    <!-- ================= BODY ================= -->
+    <div class="ve-body">
+
+        <!-- LEFT TOOLBAR -->
+        <aside class="ve-toolbar">
+            <div class="ve-tool active" data-tool="media">
+                <i class="fa-solid fa-photo-film"></i>
+                <span>Media</span>
+            </div>
+            <div class="ve-tool" data-tool="audio">
+                <i class="fa-solid fa-music"></i>
+                <span>Audio</span>
+            </div>
+            <div class="ve-tool" data-tool="text">
+                <i class="fa-solid fa-font"></i>
+                <span>Text</span>
+            </div>
+            <div class="ve-tool" data-tool="sticker">
+                <i class="fa-solid fa-face-smile"></i>
+                <span>Stickers</span>
+            </div>
+            <div class="ve-tool" data-tool="overlay">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Overlay</span>
+            </div>
+            <div class="ve-tool" data-tool="effects">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Effects</span>
+            </div>
+            <div class="ve-tool" data-tool="filters">
+                <i class="fa-solid fa-sliders"></i>
+                <span>Filters</span>
+            </div>
+            <div class="ve-tool" data-tool="transition">
+                <i class="fa-solid fa-arrows-left-right"></i>
+                <span>Transition</span>
+            </div>
+            <div class="ve-tool" data-tool="ai">
+                <i class="fa-solid fa-robot"></i>
+                <span>AI</span>
+            </div>
+            <div class="ve-tool" data-tool="presets">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <span>Presets</span>
+            </div>
+            <div class="ve-tool" data-tool="export">
+                <i class="fa-solid fa-download"></i>
+                <span>Export</span>
+            </div>
+        </aside>
+
+        <!-- CENTER: PREVIEW + TIMELINE -->
+        <main class="ve-workspace">
+
+            <!-- PREVIEW -->
+            <div class="ve-preview-wrap">
+                <div class="ve-preview" id="ve-preview">
+                    <video id="ve-video" playsinline preload="auto" crossorigin="anonymous"></video>
+
+                    <!-- Overlay Layer (for overlay videos/images) -->
+                    <div class="ve-overlay-layer" id="ve-overlay-layer">
+                        <!-- Overlays will be added here by JS -->
+                    </div>
+
+                    <div class="ve-preview-overlay" id="ve-overlay">
+                        <div class="ve-empty-hint" id="ve-empty">
+                            <i class="fa-solid fa-video"></i>
+                            <p>No video loaded</p>
+                            <small>Upload a video from the Media panel</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PLAYBACK CONTROLS -->
+                <div class="ve-playback-bar">
+                    <button class="ve-icon-btn small" id="ve-play">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <span class="ve-time" id="ve-current-time">00:00</span>
+                    <input type="range" id="ve-seek" min="0" max="100" value="0" step="0.01">
+                    <span class="ve-time" id="ve-total-time">00:00</span>
+                    <button class="ve-icon-btn small" id="ve-mute" title="Mute">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                    <button class="ve-icon-btn small" id="ve-fullscreen" title="Fullscreen">
+                        <i class="fa-solid fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+<!-- TIMELINE -->
+<div class="ve-timeline-wrap">
+    <div class="ve-timeline-header">
+        <span>Timeline</span>
+        <div class="ve-timeline-actions">
+            <span class="ve-timeline-timecode" id="ve-timeline-timecode">00:00 / 00:00</span>
+            <button class="ve-icon-btn small" id="ve-zoom-out-timeline" title="Zoom Out">
+                <i class="fa-solid fa-magnifying-glass-minus"></i>
+            </button>
+            <button class="ve-icon-btn small" id="ve-zoom-in-timeline" title="Zoom In">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+            </button>
+            <button class="ve-icon-btn small" id="ve-fit-timeline" title="Fit to Screen">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+            <button class="ve-icon-btn small" id="ve-split" title="Split in Middle">
+                <i class="fa-solid fa-scissors"></i>
+            </button>
+            <button class="ve-icon-btn small" id="ve-split-playhead" title="Split at Playhead">
+                <i class="fa-solid fa-scissors"></i>
+                <span style="font-size: 8px; margin-left: 2px; font-weight: 700;">AT</span>
+            </button>
+            <button class="ve-icon-btn small danger" id="ve-delete-clip" title="Delete Clip">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Timeline Scroll Container -->
+    <div class="ve-timeline-scroll" id="ve-timeline-scroll">
+
+        <!-- Time Ruler (Time Scale) -->
+        <div class="ve-time-ruler" id="ve-time-ruler">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Tracks -->
+        <div class="ve-timeline" id="ve-timeline">
+            <div class="ve-track ve-track-video" id="ve-track-video">
+                <!-- Video clips -->
+            </div>
+            <div class="ve-track ve-track-audio" id="ve-track-audio">
+                <!-- Audio clips -->
+            </div>
+            <div class="ve-playhead" id="ve-playhead">
+                <div class="ve-playhead-handle"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </main>
+
+        <!-- RIGHT PANEL -->
+        <aside class="ve-panel" id="ve-panel">
+
+            <!-- MEDIA PANEL -->
+            <div class="ve-panel-view" id="ve-panel-media">
+                <h3><i class="fa-solid fa-photo-film"></i> Media</h3>
+
+                <input type="file" id="ve-video-input" accept="video/*" multiple hidden>
+                <input type="file" id="ve-image-input" accept="image/*" multiple hidden>
+
+                <button class="ve-upload-btn" id="ve-video-upload">
+                    <i class="fa-solid fa-video"></i>
+                    <div>
+                        <strong>Upload Video</strong>
+                        <small>MP4, MOV, WEBM</small>
+                    </div>
+                </button>
+                <button class="ve-upload-btn" id="ve-image-upload">
+                    <i class="fa-solid fa-image"></i>
+                    <div>
+                        <strong>Upload Image</strong>
+                        <small>JPG, PNG, WEBP</small>
+                    </div>
+                </button>
+
+                <h3 style="margin-top: 16px;">Media Library</h3>
+                <div class="ve-media-list" id="ve-media-list">
+                    <p class="ve-empty-msg">Koi media nahi hai</p>
+                </div>
+            </div>
+
+            <!-- AUDIO PANEL -->
+            <div class="ve-panel-view" id="ve-panel-audio" style="display: none;">
+                <h3><i class="fa-solid fa-music"></i> Audio</h3>
+
+                <input type="file" id="ve-audio-input" accept="audio/*" multiple hidden>
+
+                <button class="ve-upload-btn" id="ve-audio-upload">
+                    <i class="fa-solid fa-music"></i>
+                    <div>
+                        <strong>Upload Audio</strong>
+                        <small>MP3, WAV, M4A</small>
+                    </div>
+                </button>
+                <button class="ve-upload-btn" id="ve-record-voice">
+                    <i class="fa-solid fa-microphone"></i>
+                    <div>
+                        <strong>Record Voice</strong>
+                        <small>Tap to record</small>
+                    </div>
+                </button>
+
+                <!-- VIDEO VOLUME CONTROL -->
+                <h3 style="margin-top: 16px;"><i class="fa-solid fa-volume-high"></i> Video Volume</h3>
+                <div class="ve-ctrl-group">
+                    <div class="ve-volume-row">
+                        <button class="ve-mute-btn" id="ve-video-mute-btn" title="Mute/Unmute">
+                            <i class="fa-solid fa-volume-high" id="ve-video-mute-icon"></i>
+                        </button>
+                        <input type="range" id="ve-video-volume" min="0" max="100" value="100">
+                        <span class="ve-volume-val" id="ve-video-volume-val">100%</span>
+                    </div>
+                </div>
+
+                <!-- BACKGROUND AUDIO CONTROL -->
+                <h3 style="margin-top: 16px;"><i class="fa-solid fa-layer-group"></i> Background Music</h3>
+                <p class="ve-hint">Video ke upar audio lagayein. Volume alag se control karein.</p>
+
+                <div id="ve-bg-audio-list">
+                    <p class="ve-empty-msg" id="ve-bg-audio-empty">Koi audio add nahi kiya</p>
+                </div>
+
+                <!-- AUDIO LIBRARY -->
+                <h3 style="margin-top: 16px;">Audio Library</h3>
+                <div class="ve-media-list" id="ve-audio-list">
+                    <p class="ve-empty-msg">Koi audio nahi hai</p>
+                </div>
+            </div>
+
+            <!-- TEXT PANEL -->
+            <div class="ve-panel-view" id="ve-panel-text" style="display: none;">
+                <h3><i class="fa-solid fa-font"></i> Text & Titles</h3>
+
+                <div class="ve-ctrl-group">
+                    <label>Text</label>
+                    <textarea id="ve-text-input" placeholder="Enter your text..." rows="2">Hello Yucut</textarea>
+                </div>
+
+                <div class="ve-ctrl-group">
+                    <label>Font Size <span id="ve-text-size-val">32px</span></label>
+                    <input type="range" id="ve-text-size" min="12" max="120" value="32">
+                </div>
+
+                <div class="ve-ctrl-group">
+                    <label>Text Color</label>
+                    <input type="color" id="ve-text-color" value="#ffffff">
+                </div>
+
+                <div class="ve-ctrl-group">
+                    <label>Background</label>
+                    <input type="color" id="ve-text-bg" value="#000000">
+                </div>
+
+                <div class="ve-ctrl-group">
+                    <label>Animation</label>
+                    <select id="ve-text-anim" class="ve-select">
+                        <option value="none">None</option>
+                        <option value="fade-in">Fade In</option>
+                        <option value="fade-out">Fade Out</option>
+                        <option value="zoom-in">Zoom In</option>
+                        <option value="slide-up">Slide Up</option>
+                        <option value="typewriter">Typewriter</option>
+                    </select>
+                </div>
+
+                <div class="ve-ctrl-group">
+                    <label>Position</label>
+                    <div class="ve-btn-row">
+                        <button class="ve-pos-btn" data-pos="top">Top</button>
+                        <button class="ve-pos-btn active" data-pos="center">Center</button>
+                        <button class="ve-pos-btn" data-pos="bottom">Bottom</button>
+                    </div>
+                </div>
+
+                <button class="ve-primary-btn full" id="ve-add-text">
+                    <i class="fa-solid fa-plus"></i> Add Text to Video
+                </button>
+            </div>
+
+            <!-- STICKER PANEL -->
+            <div class="ve-panel-view" id="ve-panel-sticker" style="display: none;">
+                <h3><i class="fa-solid fa-face-smile"></i> Stickers & Emojis</h3>
+
+                <div class="ve-sticker-grid" id="ve-sticker-grid">
+                    <!-- Populated by JS -->
+                </div>
+
+                <h3 style="margin-top: 16px;">Shapes</h3>
+                <div class="ve-shape-row" id="ve-shape-row">
+                    <button class="ve-shape-btn" data-shape="circle"></button>
+                    <button class="ve-shape-btn" data-shape="square"></button>
+                    <button class="ve-shape-btn" data-shape="triangle"></button>
+                    <button class="ve-shape-btn" data-shape="star"></button>
+                </div>
+            </div>
+
+            <!-- OVERLAY PANEL -->
+            <div class="ve-panel-view" id="ve-panel-overlay" style="display: none;">
+                <h3><i class="fa-solid fa-layer-group"></i> Overlay</h3>
+                <p class="ve-hint">Video ke upar nayi video, image lagayein (PiP style)</p>
+
+                <input type="file" id="ve-overlay-video-input" accept="video/*" hidden>
+                <input type="file" id="ve-overlay-image-input" accept="image/*" hidden>
+
+                <button class="ve-upload-btn" id="ve-overlay-video-upload">
+                    <i class="fa-solid fa-video"></i>
+                    <div>
+                        <strong>Overlay Video</strong>
+                        <small>Video ke upar video (PiP)</small>
+                    </div>
+                </button>
+
+                <button class="ve-upload-btn" id="ve-overlay-image-upload">
+                    <i class="fa-solid fa-image"></i>
+                    <div>
+                        <strong>Overlay Image</strong>
+                        <small>Logo, sticker, watermark</small>
+                    </div>
+                </button>
+
+                <!-- Overlay Controls -->
+                <div id="ve-overlay-controls" style="display: none; margin-top: 16px;">
+                    <h3><i class="fa-solid fa-sliders"></i> Overlay Settings</h3>
+
+                    <div class="ve-ctrl-group">
+                        <label>Position</label>
+                        <div class="ve-btn-row" style="grid-template-columns: repeat(5, 1fr);">
+                            <button class="ve-pos-btn ov-pos-btn" data-pos="top-left">↖</button>
+                            <button class="ve-pos-btn ov-pos-btn" data-pos="top-right">↗</button>
+                            <button class="ve-pos-btn ov-pos-btn" data-pos="center">◎</button>
+                            <button class="ve-pos-btn ov-pos-btn" data-pos="bottom-left">↙</button>
+                            <button class="ve-pos-btn ov-pos-btn" data-pos="bottom-right">↘</button>
+                        </div>
+                    </div>
+
+                    <div class="ve-ctrl-group">
+                        <label>Size <span id="ve-overlay-size-val">30%</span></label>
+                        <input type="range" id="ve-overlay-size" min="10" max="100" value="30">
+                    </div>
+
+                    <div class="ve-ctrl-group">
+                        <label>Opacity <span id="ve-overlay-opacity-val">100%</span></label>
+                        <input type="range" id="ve-overlay-opacity" min="0" max="100" value="100">
+                    </div>
+
+                    <div class="ve-ctrl-group">
+                        <label>Rotation <span id="ve-overlay-rotation-val">0°</span></label>
+                        <input type="range" id="ve-overlay-rotation" min="0" max="360" value="0">
+                    </div>
+
+                    <div class="ve-ctrl-group">
+                        <label>Start Time <span id="ve-overlay-start-val">0s</span></label>
+                        <input type="range" id="ve-overlay-start" min="0" max="60" value="0">
+                    </div>
+
+                    <div class="ve-ctrl-group">
+                        <label>End Time <span id="ve-overlay-end-val">5s</span></label>
+                        <input type="range" id="ve-overlay-end" min="0" max="60" value="5">
+                    </div>
+
+                    <div class="ve-btn-row-2">
+                        <button class="ve-primary-btn" id="ve-overlay-apply">
+                            <i class="fa-solid fa-check"></i> Apply
+                        </button>
+                        <button class="ve-icon-btn danger" id="ve-overlay-delete" style="width: auto; padding: 0 12px;">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Overlay List -->
+                <h3 style="margin-top: 16px;">Overlays on Video</h3>
+                <div id="ve-overlay-list">
+                    <p class="ve-empty-msg" id="ve-overlay-empty">Koi overlay nahi hai</p>
+                </div>
+            </div>
+
+            <!-- EFFECTS PANEL -->
+            <div class="ve-panel-view" id="ve-panel-effects" style="display: none;">
+                <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Effects</h3>
+
+                <div class="ve-effect-grid" id="ve-effect-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- FILTERS PANEL -->
+            <div class="ve-panel-view" id="ve-panel-filters" style="display: none;">
+                <h3><i class="fa-solid fa-sliders"></i> Filters & Color</h3>
+
+                <div class="ve-filter-grid" id="ve-filter-grid">
+                    <!-- Populated by JS -->
+                </div>
+
+                <h3 style="margin-top: 16px;">Adjustments</h3>
+
+                <div class="ve-ctrl-group">
+                    <label>Brightness <span id="ve-bright-val">100%</span></label>
+                    <input type="range" id="ve-bright" min="0" max="200" value="100">
+                </div>
+                <div class="ve-ctrl-group">
+                    <label>Contrast <span id="ve-contrast-val">100%</span></label>
+                    <input type="range" id="ve-contrast" min="0" max="200" value="100">
+                </div>
+                <div class="ve-ctrl-group">
+                    <label>Saturation <span id="ve-sat-val">100%</span></label>
+                    <input type="range" id="ve-sat" min="0" max="200" value="100">
+                </div>
+                <div class="ve-ctrl-group">
+                    <label>Blur <span id="ve-blur-val">0px</span></label>
+                    <input type="range" id="ve-blur" min="0" max="20" value="0">
+                </div>
+                <div class="ve-ctrl-group">
+                    <label>Sharpness <span id="ve-sharp-val">0%</span></label>
+                    <input type="range" id="ve-sharp" min="0" max="100" value="0">
+                </div>
+                <div class="ve-ctrl-group">
+                    <label>Hue <span id="ve-hue-val">0°</span></label>
+                    <input type="range" id="ve-hue" min="-180" max="180" value="0">
+                </div>
+                <div class="ve-ctrl-group">
+                    <label>Grayscale <span id="ve-gray-val">0%</span></label>
+                    <input type="range" id="ve-gray" min="0" max="100" value="0">
+                </div>
+
+                <button class="ve-primary-btn full" id="ve-apply-filter">
+                    <i class="fa-solid fa-check"></i> Apply to Selected Clip
+                </button>
+            </div>
+
+            <!-- TRANSITION PANEL -->
+            <div class="ve-panel-view" id="ve-panel-transition" style="display: none;">
+                <h3><i class="fa-solid fa-arrows-left-right"></i> Transitions</h3>
+                <p class="ve-hint">Select two clips in timeline, then choose a transition</p>
+
+                <div class="ve-transition-grid" id="ve-transition-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- AI PANEL -->
+            <div class="ve-panel-view" id="ve-panel-ai" style="display: none;">
+                <h3><i class="fa-solid fa-robot"></i> AI Features</h3>
+                <p class="ve-hint">Advanced AI features — coming soon with backend integration</p>
+
+                <button class="ve-ai-btn"><i class="fa-solid fa-closed-captioning"></i> Auto Captions</button>
+                <button class="ve-ai-btn"><i class="fa-solid fa-microphone-lines"></i> Speech to Text</button>
+                <button class="ve-ai-btn"><i class="fa-solid fa-volume-high"></i> Text to Speech</button>
+                <button class="ve-ai-btn"><i class="fa-solid fa-user-slash"></i> Background Removal</button>
+                <button class="ve-ai-btn"><i class="fa-solid fa-face-smile-wink"></i> Face Blur</button>
+                <button class="ve-ai-btn"><i class="fa-solid fa-wand-sparkles"></i> AI Enhance</button>
+                <button class="ve-ai-btn"><i class="fa-solid fa-wave-square"></i> Noise Reduction</button>
+                <button class="ve-ai-btn"><i class="fa-solid fa-user-voice"></i> Voice Changer</button>
+            </div>
+
+            <!-- PRESETS PANEL -->
+            <div class="ve-panel-view" id="ve-panel-presets" style="display: none;">
+                <h3><i class="fa-solid fa-mobile-screen"></i> Social Media Presets</h3>
+                <p class="ve-hint">Ek click me canvas ka size set karein</p>
+
+                <div class="ve-preset-grid" id="ve-preset-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- EXPORT PANEL -->
+<div class="ve-panel-view" id="ve-panel-export" style="display: none;">
+    <h3><i class="fa-solid fa-download"></i> Export Video</h3>
+
+    <div class="ve-ctrl-group">
+        <label>Resolution</label>
+        <select id="ve-export-res" class="ve-select">
+            <option value="480">480p (SD)</option>
+            <option value="720" selected>720p (HD)</option>
+            <option value="1080">1080p (Full HD)</option>
+            <option value="2160">4K (Ultra HD)</option>
+        </select>
+    </div>
+
+    <div class="ve-ctrl-group">
+        <label>Aspect Ratio</label>
+        <select id="ve-export-aspect" class="ve-select">
+            <option value="16:9" selected>16:9 (YouTube)</option>
+            <option value="9:16">9:16 (TikTok/Reels)</option>
+            <option value="1:1">1:1 (Instagram Post)</option>
+            <option value="4:5">4:5 (Instagram)</option>
+            <option value="21:9">21:9 (Cinematic)</option>
+            <option value="original">Original</option>
+        </select>
+    </div>
+
+    <div class="ve-ctrl-group">
+        <label>FPS</label>
+        <select id="ve-export-fps" class="ve-select">
+            <option value="24">24 fps</option>
+            <option value="30" selected>30 fps</option>
+            <option value="60">60 fps</option>
+        </select>
+    </div>
+
+    <div class="ve-ctrl-group">
+        <label>Quality <span id="ve-quality-val">80%</span></label>
+        <input type="range" id="ve-export-quality" min="10" max="100" value="80">
+    </div>
+
+    <div class="ve-ctrl-group">
+        <label>Format</label>
+        <select id="ve-export-format" class="ve-select">
+            <option value="webm" selected>WEBM (Recommended)</option>
+            <option value="mp4">MP4 (Limited)</option>
+        </select>
+    </div>
+
+    <!-- ================= ROTATE OPTION (NEW) ================= -->
+    <div class="ve-ctrl-group">
+        <label>Rotate Video</label>
+        <div class="ve-btn-row" style="grid-template-columns: repeat(4, 1fr);">
+            <button class="ve-pos-btn rotate-btn active" data-rotate="0">0°</button>
+            <button class="ve-pos-btn rotate-btn" data-rotate="90">90°</button>
+            <button class="ve-pos-btn rotate-btn" data-rotate="180">180°</button>
+            <button class="ve-pos-btn rotate-btn" data-rotate="270">270°</button>
+        </div>
+        <div style="margin-top: 8px;">
+            <label style="font-size: 11px; color: #666;">Custom Rotate <span id="ve-rotate-val">0°</span></label>
+            <input type="range" id="ve-export-rotate" min="0" max="360" value="0">
+        </div>
+    </div>
+
+    <div class="ve-ctrl-group">
+        <label>Flip</label>
+        <div class="ve-btn-row" style="grid-template-columns: repeat(3, 1fr);">
+            <button class="ve-pos-btn flip-btn" data-flip="none" id="ve-flip-none">None</button>
+            <button class="ve-pos-btn flip-btn" data-flip="horizontal">↔ Horizontal</button>
+            <button class="ve-pos-btn flip-btn" data-flip="vertical">↕ Vertical</button>
+        </div>
+    </div>
+
+    <div class="ve-export-info" id="ve-export-info">
+        <div class="ve-info-line"><span>Duration:</span><b id="ve-info-duration">0s</b></div>
+        <div class="ve-info-line"><span>Est. Size:</span><b id="ve-info-size">~0 MB</b></div>
+        <div class="ve-info-line"><span>Output:</span><b id="ve-info-output">1280 × 720</b></div>
+    </div>
+
+    <button class="ve-primary-btn full" id="ve-do-export">
+        <i class="fa-solid fa-download"></i> Export Video
+    </button>
+    <p class="ve-hint" style="text-align: center; margin-top: 8px;">WEBM format me download hoga (VLC compatible)</p>
+</div>
+        </aside>
+    </div>
+
+</div>
+
+<script src="video-script.js"></script>
+<script src="pwa-install.js" defer></script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+            .then(reg => console.log('✅ SW registered:', reg.scope))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
+</body>
+</html>

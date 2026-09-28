@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00d2d3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Yucut">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yucut - Image Editor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="img-style.css">
+    <script src="theme.js"></script>
+</head>
+<body>
+
+    <div class="editor-app">
+        <!-- ================= HEADER ================= -->
+        <header class="editor-header">
+            <div class="header-left">
+                <button class="icon-btn" id="back-btn" title="Back">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div class="logo">
+                    <i class="fa-solid fa-scissors"></i> <span>Yucut</span>
+                </div>
+                <span class="sep">|</span>
+                <span class="page-name">Image Editor</span>
+            </div>
+
+            <div class="header-right">
+                <!-- THEME SWITCHER -->
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="theme-btn" title="Change Theme">
+                        <i class="fa-solid fa-sun"></i>
+                    </button>
+                </div>
+
+                <button class="icon-btn danger" id="clear-btn" title="Clear All">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+                <button class="primary-btn" id="export-btn">
+                    <i class="fa-solid fa-download"></i> Export
+                </button>
+            </div>
+        </header>
+
+        <!-- ================= BODY ================= -->
+        <div class="editor-body">
+
+            <!-- ========== LEFT TOOLBAR ========== -->
+            <aside class="toolbar">
+                <div class="tool-item active" data-tool="upload" id="tool-upload">
+                    <i class="fa-solid fa-upload"></i>
+                    <span>Upload</span>
+                </div>
+                <div class="tool-item" data-tool="shapes" id="tool-shapes">
+                    <i class="fa-solid fa-shapes"></i>
+                    <span>Shapes</span>
+                </div>
+                <div class="tool-item" data-tool="filters" id="tool-filters">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Filters</span>
+                </div>
+                <div class="tool-item" data-tool="text" id="tool-text">
+                    <i class="fa-solid fa-font"></i>
+                    <span>Text</span>
+                </div>
+            </aside>
+
+            <!-- ========== CENTER CANVAS ========== -->
+<main class="workspace">
+
+    <!-- Floating Zoom Controls (Mobile + Desktop) -->
+    <div class="zoom-controls" id="zoom-controls">
+        <button class="zoom-btn" id="zoom-out-btn" title="Zoom Out">
+            <i class="fa-solid fa-minus"></i>
+        </button>
+        <span class="zoom-level" id="zoom-level">100%</span>
+        <button class="zoom-btn" id="zoom-in-btn" title="Zoom In">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+        <button class="zoom-btn" id="fit-btn" title="Fit to Screen">
+            <i class="fa-solid fa-expand"></i>
+        </button>
+        <button class="zoom-btn" id="reset-zoom-btn" title="Reset Zoom">
+            <i class="fa-solid fa-rotate-left"></i>
+        </button>
+    </div>
+
+    <!-- Mobile Mode Toggle -->
+    <div class="mode-toggle" id="mode-toggle">
+        <button class="mode-btn active" data-mode="edit" title="Edit Mode">
+            <i class="fa-solid fa-pen"></i> <span>Edit</span>
+        </button>
+        <button class="mode-btn" data-mode="pan" title="Pan Mode">
+            <i class="fa-solid fa-hand"></i> <span>Pan</span>
+        </button>
+    </div>
+
+    <!-- Canvas Wrapper (for zoom/pan) -->
+    <div class="canvas-wrap" id="canvas-wrap">
+        <div class="canvas-zoom-layer" id="canvas-zoom-layer">
+            <div class="canvas" id="canvas">
+                <div class="empty-hint" id="empty-hint">
+                    <i class="fa-regular fa-image"></i>
+                    <p>Canvas is Empty</p>
+                    <small>Use the left toolbar to start</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+            <!-- ========== RIGHT PANEL ========== -->
+            <aside class="side-panel" id="side-panel">
+
+                <!-- ===== UPLOAD ===== -->
+                <div class="panel-view" id="panel-upload">
+                    <h3><i class="fa-solid fa-upload"></i> Upload</h3>
+                    <input type="file" id="file-input" accept="image/*" multiple hidden>
+                    <input type="file" id="camera-input" accept="image/*" capture="environment" hidden>
+
+                    <div class="upload-btn" id="choose-file-btn">
+                        <i class="fa-regular fa-folder-open"></i>
+                        <div>
+                            <strong>Choose File</strong>
+                            <small>JPG, PNG, WEBP</small>
+                        </div>
+                    </div>
+
+                    <div class="upload-btn" id="camera-btn">
+                        <i class="fa-solid fa-camera"></i>
+                        <div>
+                            <strong>Take Photo</strong>
+                            <small>Camera se click karein</small>
+                        </div>
+                    </div>
+
+                    <div class="drop-zone" id="drop-zone">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <p>Drag & Drop</p>
+                    </div>
+
+                    <h3 style="margin-top: 16px;"><i class="fa-solid fa-images"></i> Uploaded</h3>
+                    <div class="uploaded-list" id="uploaded-list">
+                        <p class="no-images" id="no-images">Koi image nahi hai</p>
+                    </div>
+                </div>
+
+                <!-- ===== SHAPES ===== -->
+                <div class="panel-view" id="panel-shapes" style="display: none;">
+                    <h3><i class="fa-solid fa-shapes"></i> Shapes</h3>
+                    <div class="shape-list" id="shape-list"></div>
+
+                    <h3 style="margin-top: 16px;"><i class="fa-solid fa-palette"></i> Colors</h3>
+                    <div class="color-palette" id="color-palette"></div>
+                </div>
+
+                <!-- ===== FILTERS (ADVANCED) ===== -->
+                <div class="panel-view" id="panel-filters" style="display: none;">
+                    <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Filters</h3>
+
+                    <!-- Presets -->
+                    <div class="filter-categories">
+                        <button class="cat-btn active" data-cat="basic">Basic</button>
+                        <button class="cat-btn" data-cat="vintage">Vintage</button>
+                        <button class="cat-btn" data-cat="bw">B&W</button>
+                        <button class="cat-btn" data-cat="warm">Warm</button>
+                        <button class="cat-btn" data-cat="cool">Cool</button>
+                    </div>
+
+                    <div class="filter-grid" id="filter-grid"></div>
+
+                    <!-- Adjustments -->
+                    <h3 style="margin-top: 16px;">Adjustments</h3>
+
+                    <div class="slider-item">
+                        <label>☀️ Brightness <span id="brightness-val">100%</span></label>
+                        <input type="range" min="0" max="200" value="100" id="brightness">
+                    </div>
+
+                    <div class="slider-item">
+                        <label>◐ Contrast <span id="contrast-val">100%</span></label>
+                        <input type="range" min="0" max="200" value="100" id="contrast">
+                    </div>
+
+                    <div class="slider-item">
+                        <label>🎨 Saturation <span id="saturation-val">100%</span></label>
+                        <input type="range" min="0" max="200" value="100" id="saturation">
+                    </div>
+
+                    <div class="slider-item">
+                        <label>🌡️ Temperature <span id="temperature-val">0</span></label>
+                        <input type="range" min="-100" max="100" value="0" id="temperature">
+                    </div>
+
+                    <div class="slider-item">
+                        <label>🌫️ Blur <span id="blur-val">0px</span></label>
+                        <input type="range" min="0" max="20" value="0" id="blur">
+                    </div>
+
+                    <div class="slider-item">
+                        <label>🔲 Sharpen <span id="sharpen-val">0%</span></label>
+                        <input type="range" min="0" max="100" value="0" id="sharpen">
+                    </div>
+
+                    <div class="slider-item">
+                        <label>⚫ Grayscale <span id="grayscale-val">0%</span></label>
+                        <input type="range" min="0" max="100" value="0" id="grayscale">
+                    </div>
+
+                    <div class="slider-item">
+                        <label>🟤 Sepia <span id="sepia-val">0%</span></label>
+                        <input type="range" min="0" max="100" value="0" id="sepia">
+                    </div>
+
+                    <div class="slider-item">
+                        <label>🌈 Hue Rotate <span id="hue-val">0°</span></label>
+                        <input type="range" min="0" max="360" value="0" id="hue">
+                    </div>
+
+                    <div class="slider-item">
+                        <label>🔄 Invert <span id="invert-val">0%</span></label>
+                        <input type="range" min="0" max="100" value="0" id="invert">
+                    </div>
+
+                    <div class="slider-item">
+                        <label>🕳️ Vignette <span id="vignette-val">0%</span></label>
+                        <input type="range" min="0" max="100" value="0" id="vignette">
+                    </div>
+
+                    <button class="action-btn danger" id="reset-filters" style="margin-top: 12px;">
+                        <i class="fa-solid fa-rotate-left"></i> Reset All
+                    </button>
+                </div>
+
+                <!-- ===== TEXT (ADVANCED) ===== -->
+<div class="panel-view" id="panel-text" style="display: none;">
+    <h3><i class="fa-solid fa-font"></i> Add Text</h3>
+
+    <!-- LIVE TEXT INPUT -->
+    <div class="ctrl-group">
+        <label>Your Text</label>
+        <textarea id="text-input" placeholder="Type here... اردو، English، 中文، 日本語..." rows="2">Hello Yucut</textarea>
+    </div>
+
+    <!-- LANGUAGE QUICK SELECT -->
+    <div class="ctrl-group">
+        <label>Quick Language</label>
+        <div class="lang-row">
+            <button class="lang-btn" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="ur">اردو</button>
+            <button class="lang-btn" data-lang="ar">عربي</button>
+            <button class="lang-btn" data-lang="hi">हिन्दी</button>
+            <button class="lang-btn" data-lang="zh">中文</button>
+            <button class="lang-btn" data-lang="ja">日本</button>
+            <button class="lang-btn" data-lang="ko">한국</button>
+            <button class="lang-btn" data-lang="ru">РУС</button>
+        </div>
+    </div>
+
+    <!-- FONT FAMILY -->
+    <div class="ctrl-group">
+        <label>Font Family <span id="font-count">100+</span></label>
+        <select id="font-family" class="font-select">
+            <!-- Populated by JS -->
+        </select>
+    </div>
+
+    <!-- FONT SIZE -->
+    <div class="ctrl-group">
+        <label>Font Size <span id="fs-val">48px</span></label>
+        <input type="range" id="fs-range" min="8" max="300" value="48">
+    </div>
+
+    <!-- FONT WEIGHT -->
+    <div class="ctrl-group">
+        <label>Font Weight <span id="fw-val">700</span></label>
+        <input type="range" id="fw-range" min="100" max="900" value="700" step="100">
+    </div>
+
+    <!-- COLOR -->
+    <div class="ctrl-group">
+        <label>Text Color</label>
+        <input type="color" id="text-color" value="#1a1a1a">
+    </div>
+
+    <!-- BACKGROUND (Text Box) -->
+    <div class="ctrl-group">
+        <label>Text Background</label>
+        <div class="bg-toggle-row">
+            <input type="color" id="text-bg" value="#ffffff">
+            <label class="transparent-toggle">
+                <input type="checkbox" id="text-bg-transparent" checked>
+                <span>Transparent</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- ALIGNMENT -->
+    <div class="ctrl-group">
+        <label>Alignment</label>
+        <div class="align-row">
+            <button class="align-btn active" data-align="center" title="Center">
+                <i class="fa-solid fa-align-center"></i>
+            </button>
+            <button class="align-btn" data-align="left" title="Left">
+                <i class="fa-solid fa-align-left"></i>
+            </button>
+            <button class="align-btn" data-align="right" title="Right">
+                <i class="fa-solid fa-align-right"></i>
+            </button>
+            <button class="align-btn" data-align="justify" title="Justify">
+                <i class="fa-solid fa-align-justify"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- STYLE -->
+    <div class="ctrl-group">
+        <label>Style</label>
+        <div class="style-row">
+            <button class="style-btn" data-style="bold" title="Bold">
+                <b>B</b>
+            </button>
+            <button class="style-btn" data-style="italic" title="Italic">
+                <i>I</i>
+            </button>
+            <button class="style-btn" data-style="underline" title="Underline">
+                <u>U</u>
+            </button>
+            <button class="style-btn" data-style="strike" title="Strike">
+                <s>S</s>
+            </button>
+            <button class="style-btn" data-style="uppercase" title="Uppercase">
+                Aa
+            </button>
+        </div>
+    </div>
+
+    <!-- LETTER SPACING -->
+    <div class="ctrl-group">
+        <label>Letter Spacing <span id="ls-val">0px</span></label>
+        <input type="range" id="ls-range" min="-5" max="20" value="0" step="0.5">
+    </div>
+
+    <!-- LINE HEIGHT -->
+    <div class="ctrl-group">
+        <label>Line Height <span id="lh-val">1.2</span></label>
+        <input type="range" id="lh-range" min="0.8" max="3" value="1.2" step="0.1">
+    </div>
+
+    <!-- TEXT SHADOW -->
+    <div class="ctrl-group">
+        <label>Text Shadow</label>
+        <div class="shadow-row">
+            <button class="shadow-btn" data-shadow="none">None</button>
+            <button class="shadow-btn" data-shadow="soft">Soft</button>
+            <button class="shadow-btn" data-shadow="hard">Hard</button>
+            <button class="shadow-btn" data-shadow="glow">Glow</button>
+        </div>
+    </div>
+
+    <!-- TEXT OUTLINE -->
+    <div class="ctrl-group">
+        <label>Text Outline <span id="outline-val">0px</span></label>
+        <input type="range" id="outline-range" min="0" max="10" value="0" step="0.5">
+        <input type="color" id="outline-color" value="#000000" style="margin-top: 6px;">
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <button class="action-btn primary" id="add-text-btn" style="margin-top: 16px;">
+        <i class="fa-solid fa-plus"></i> Add Text to Canvas
+    </button>
+
+    <button class="action-btn" id="update-text-btn" style="display: none;">
+        <i class="fa-solid fa-check"></i> Update Selected Text
+    </button>
+</div>
+                 <!-- ===== ENHANCE BUTTON (Text Panel ke andar) ===== -->
+<div class="enhance-section">
+    <h3 style="margin-top: 20px;"><i class="fa-solid fa-wand-sparkles"></i> Enhance</h3>
+    <p class="enhance-hint">Select an image on the canvas, then click below</p>
+
+    <button class="enhance-btn" id="enhance-btn">
+        <i class="fa-solid fa-wand-sparkles"></i>
+        <span>Enhance Image</span>
+    </button>
+
+    <button class="enhance-btn secondary" id="reset-enhance-btn" style="display: none;">
+        <i class="fa-solid fa-rotate-left"></i>
+        <span>Reset Enhancement</span>
+    </button>
+</div>
+                <!-- ===== PROPERTIES ===== -->
+                <div class="panel-view" id="panel-properties" style="display: none;">
+                    <h3><i class="fa-solid fa-sliders"></i> Properties</h3>
+                    <p class="empty-msg" id="empty-msg">Select an item to edit</p>
+
+                    <div class="controls" id="controls" style="display: none;">
+                        <div class="ctrl-group" id="cg-fill">
+                            <label>Fill Color</label>
+                            <input type="color" id="fill-color" value="#00d2d3">
+                        </div>
+
+                        <div class="ctrl-group">
+                            <label>Width <span id="w-val">100px</span></label>
+                            <input type="range" id="w-range" min="20" max="800" value="100">
+                        </div>
+
+                        <div class="ctrl-group">
+                            <label>Height <span id="h-val">100px</span></label>
+                            <input type="range" id="h-range" min="20" max="800" value="100">
+                        </div>
+
+                        <div class="ctrl-group">
+                            <label>Rotate <span id="r-val">0°</span></label>
+                            <input type="range" id="r-range" min="0" max="360" value="0">
+                        </div>
+
+                        <div class="ctrl-group">
+                            <label>Opacity <span id="o-val">100%</span></label>
+                            <input type="range" id="o-range" min="0" max="100" value="100">
+                        </div>
+
+                        <div class="ctrl-group" id="cg-radius">
+                            <label>Corner Radius <span id="br-val">0px</span></label>
+                            <input type="range" id="br-range" min="0" max="200" value="0">
+                        </div>
+
+                        <div class="action-row">
+                            <button class="action-btn" id="duplicate-btn">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </button>
+                            <button class="action-btn danger" id="delete-btn">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+        <!-- ================= EXPORT MODAL (4K) ================= -->
+<div class="export-modal" id="export-modal">
+    <div class="export-box">
+        <div class="export-header">
+            <h2><i class="fa-solid fa-download"></i> Export Image</h2>
+            <span class="close-export" id="close-export">&times;</span>
+        </div>
+
+        <div class="export-body">
+            <!-- Preview -->
+            <div class="export-preview">
+                <canvas id="export-preview-canvas"></canvas>
+                <p class="preview-label">Live Preview</p>
+            </div>
+
+            <!-- Settings -->
+            <div class="export-settings">
+                <!-- Resolution -->
+                <div class="exp-group">
+                    <label>Resolution</label>
+                    <div class="res-grid">
+                        <div class="res-card active" data-res="4k">
+                            <strong>4K</strong>
+                            <small>3840 × 2160</small>
+                        </div>
+                        <div class="res-card" data-res="2k">
+                            <strong>2K</strong>
+                            <small>2560 × 1440</small>
+                        </div>
+                        <div class="res-card" data-res="1080p">
+                            <strong>1080p</strong>
+                            <small>1920 × 1080</small>
+                        </div>
+                        <div class="res-card" data-res="720p">
+                            <strong>720p</strong>
+                            <small>1280 × 720</small>
+                        </div>
+                        <div class="res-card" data-res="custom">
+                            <strong>Custom</strong>
+                            <small>Apna size</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Size -->
+                <div class="exp-group" id="custom-size-group" style="display: none;">
+                    <label>Custom Size</label>
+                    <div class="custom-size-row">
+                        <div>
+                            <label>W</label>
+                            <input type="number" id="custom-w" value="2000" min="100" max="8000">
+                        </div>
+                        <div>
+                            <label>H</label>
+                            <input type="number" id="custom-h" value="2000" min="100" max="8000">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Format -->
+                <div class="exp-group">
+                    <label>Format</label>
+                    <div class="format-row">
+                        <label class="format-opt active">
+                            <input type="radio" name="exp-format" value="png" checked>
+                            <span>PNG</span>
+                        </label>
+                        <label class="format-opt">
+                            <input type="radio" name="exp-format" value="jpeg">
+                            <span>JPG</span>
+                        </label>
+                        <label class="format-opt">
+                            <input type="radio" name="exp-format" value="webp">
+                            <span>WEBP</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Quality -->
+                <div class="exp-group" id="quality-group" style="display: none;">
+                    <label>Quality <span id="exp-quality-val">92%</span></label>
+                    <input type="range" id="exp-quality" min="10" max="100" value="92">
+                </div>
+
+                <!-- Background -->
+                <div class="exp-group">
+                    <label>Background</label>
+                    <div class="bg-row">
+                        <input type="color" id="exp-bg" value="#ffffff">
+                        <label class="transparent-toggle">
+                            <input type="checkbox" id="exp-transparent">
+                            <span>Transparent (PNG)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="exp-info">
+                    <div class="info-line">
+                        <span>Output:</span>
+                        <b id="exp-out-size">3840 × 2160</b>
+                    </div>
+                    <div class="info-line">
+                        <span>Format:</span>
+                        <b id="exp-out-format">PNG</b>
+                    </div>
+                    <div class="info-line">
+                        <span>Est. Size:</span>
+                        <b id="exp-out-est">~2.5 MB</b>
+                    </div>
+                </div>
+
+                <!-- Download -->
+                <button class="exp-download-btn" id="exp-download-btn">
+                    <i class="fa-solid fa-download"></i> Download 4K
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <script src="img-script.js"></script>
+    <script src="pwa-install.js" defer></script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+            .then(reg => console.log('✅ SW registered:', reg.scope))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
+</body>
+</html>

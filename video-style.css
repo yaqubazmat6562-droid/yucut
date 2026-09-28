@@ -1,0 +1,2015 @@
+:root {
+    --primary: #00d2d3;
+    --primary-dark: #00b5b6;
+    --danger: #ff3b30;
+    --warning: #ff9500;
+    --text-dark: #1a1a1a;
+    --text-light: #666;
+    --border: #e5e5e5;
+    --hover: #f0f0f0;
+    --bg: #f5f6f8;
+    --dark-bg: #1e1e1e;
+    --darker-bg: #141414;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background: var(--bg);
+    height: 100vh;
+    overflow: hidden;
+    color: var(--text-dark);
+}
+
+.video-app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* ================= HEADER ================= */
+.ve-header {
+    height: 56px;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    flex-shrink: 0;
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.ve-header-left,
+.ve-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ve-logo {
+    font-size: 17px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.ve-logo i { color: var(--primary); }
+.ve-sep { color: #ccc; }
+.ve-title { font-size: 13px; color: var(--text-light); }
+
+.ve-icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    border: none;
+    background: #f1f1f1;
+    color: var(--text-dark);
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+.ve-icon-btn:hover { background: var(--hover); }
+.ve-icon-btn.danger:hover { background: #ffe5e5; color: var(--danger); }
+.ve-icon-btn.small { width: 30px; height: 30px; font-size: 11px; }
+
+.ve-primary-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+}
+.ve-primary-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,210,211,0.3);
+}
+.ve-primary-btn.full { width: 100%; justify-content: center; padding: 12px; }
+
+/* ================= BODY ================= */
+.ve-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* ================= TOOLBAR ================= */
+.ve-toolbar {
+    width: 82px;
+    background: #fff;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+    gap: 2px;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+.ve-tool {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 4px;
+    margin: 0 6px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: 0.2s;
+    color: var(--text-light);
+}
+.ve-tool i { font-size: 17px; }
+.ve-tool span { font-size: 10px; font-weight: 600; }
+.ve-tool:hover { background: var(--hover); color: var(--text-dark); }
+.ve-tool.active { background: #e0f7fa; color: var(--primary); }
+
+/* ================= WORKSPACE ================= */
+.ve-workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--bg);
+}
+
+/* PREVIEW */
+.ve-preview-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #141414;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.ve-preview {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.ve-preview video {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    background: #000;
+}
+
+.ve-preview-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ve-empty-hint {
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    user-select: none;
+}
+.ve-empty-hint i { font-size: 50px; margin-bottom: 10px; display: block; }
+.ve-empty-hint p { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.ve-empty-hint small { font-size: 11px; }
+
+/* Playback Bar */
+.ve-playback-bar {
+    height: 46px;
+    background: #222;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    flex-shrink: 0;
+    border-top: 1px solid #333;
+}
+
+.ve-playback-bar .ve-icon-btn {
+    background: #333;
+    color: #fff;
+}
+.ve-playback-bar .ve-icon-btn:hover { background: #444; }
+
+.ve-time {
+    font-size: 11px;
+    color: #bbb;
+    font-family: 'Consolas', monospace;
+    min-width: 45px;
+    text-align: center;
+}
+
+#ve-seek {
+    flex: 1;
+    accent-color: var(--primary);
+    cursor: pointer;
+    height: 4px;
+}
+
+/* TIMELINE */
+.ve-timeline-wrap {
+    height: 180px;
+    background: #1a1a1a;
+    border-top: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.ve-timeline-header {
+    height: 34px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #222;
+    border-bottom: 1px solid #333;
+    color: #bbb;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ve-timeline-actions {
+    display: flex;
+    gap: 5px;
+}
+.ve-timeline-actions .ve-icon-btn {
+    background: #333;
+    color: #fff;
+}
+
+.ve-timeline {
+    flex: 1;
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ve-track {
+    height: 46px;
+    background: #252525;
+    border-radius: 6px;
+    display: flex;
+    gap: 3px;
+    padding: 3px;
+    position: relative;
+    min-width: 100%;
+    transition: 0.2s;
+}
+
+.ve-track-video { height: 60px; }
+.ve-track-audio { height: 40px; }
+
+/* Clip in Timeline */
+.ve-clip {
+    height: 100%;
+    background: linear-gradient(135deg, #00d2d3, #00a5a6);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    overflow: hidden;
+    position: relative;
+    transition: 0.2s;
+    min-width: 60px;
+    flex-shrink: 0;
+    border: 2px solid transparent;
+    user-select: none;
+}
+
+.ve-clip.video-clip {
+    background: linear-gradient(135deg, #00d2d3, #00a5a6);
+}
+
+.ve-clip.audio-clip {
+    background: linear-gradient(135deg, #ff9500, #cc7700);
+}
+
+.ve-clip.image-clip {
+    background: linear-gradient(135deg, #5e5ce6, #4a48c9);
+}
+
+.ve-clip.selected {
+    border-color: white;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.ve-clip:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.ve-clip-label {
+    position: absolute;
+    top: 3px;
+    left: 6px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.9);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: calc(100% - 12px);
+}
+
+.ve-clip-duration {
+    position: absolute;
+    bottom: 3px;
+    right: 6px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.8);
+    font-family: monospace;
+}
+
+/* Playhead */
+.ve-playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #ff3b30;
+    left: 14px;
+    pointer-events: none;
+    z-index: 10;
+    box-shadow: 0 0 8px rgba(255,59,48,0.6);
+}
+
+.ve-playhead::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 12px;
+    height: 12px;
+    background: #ff3b30;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #1a1a1a;
+}
+
+/* ================= RIGHT PANEL ================= */
+.ve-panel {
+    width: 300px;
+    background: #fff;
+    border-left: 1px solid var(--border);
+    padding: 16px;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.ve-panel-view h3 {
+    font-size: 11px;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Upload Buttons */
+.ve-upload-btn {
+    width: 100%;
+    padding: 12px;
+    background: #fafafa;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.2s;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.ve-upload-btn:hover {
+    background: #e6fbff;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.ve-upload-btn i {
+    font-size: 18px;
+    color: var(--primary);
+    width: 26px;
+    text-align: center;
+}
+
+.ve-upload-btn strong {
+    display: block;
+    font-size: 13px;
+    color: var(--text-dark);
+}
+.ve-upload-btn small {
+    font-size: 10px;
+    color: var(--text-light);
+}
+
+/* Media List */
+.ve-media-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.ve-empty-msg {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 11px;
+    color: #aaa;
+    padding: 15px 0;
+}
+
+.ve-media-item {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s;
+    background: #f1f1f1;
+    position: relative;
+}
+.ve-media-item:hover { border-color: var(--primary); }
+.ve-media-item img,
+.ve-media-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ve-media-item .ve-media-badge {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    font-size: 8px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-weight: 700;
+}
+
+/* Controls */
+.ve-ctrl-group {
+    margin-bottom: 14px;
+}
+
+.ve-ctrl-group label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-dark);
+}
+
+.ve-ctrl-group label span { color: var(--primary); font-weight: 700; }
+
+.ve-ctrl-group input[type="range"] {
+    width: 100%;
+    accent-color: var(--primary);
+    cursor: pointer;
+    height: 5px;
+}
+
+.ve-ctrl-group input[type="color"] {
+    width: 100%;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    background: none;
+    padding: 2px;
+}
+
+.ve-ctrl-group textarea {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+}
+.ve-ctrl-group textarea:focus { border-color: var(--primary); }
+
+.ve-select {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    outline: none;
+    background: #fafafa;
+    cursor: pointer;
+}
+.ve-select:focus { border-color: var(--primary); }
+
+.ve-btn-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.ve-pos-btn {
+    padding: 8px 4px;
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+.ve-pos-btn:hover { border-color: var(--primary); background: #e6fbff; }
+.ve-pos-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* Sticker Grid */
+.ve-sticker-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+}
+
+.ve-sticker-item {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: #fafafa;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1px solid var(--border);
+}
+.ve-sticker-item:hover {
+    background: #e6fbff;
+    border-color: var(--primary);
+    transform: scale(1.1);
+}
+
+.ve-shape-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+}
+
+.ve-shape-btn {
+    aspect-ratio: 1;
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+}
+.ve-shape-btn:hover { border-color: var(--primary); background: #e6fbff; }
+
+.ve-shape-btn[data-shape="circle"]::before {
+    content: ''; width: 50%; height: 50%;
+    background: #00d2d3; border-radius: 50%;
+    position: absolute; top: 25%; left: 25%;
+}
+.ve-shape-btn[data-shape="square"]::before {
+    content: ''; width: 50%; height: 50%;
+    background: #5e5ce6; position: absolute; top: 25%; left: 25%;
+}
+.ve-shape-btn[data-shape="triangle"]::before {
+    content: ''; width: 0; height: 0;
+    border-left: 12px solid transparent; border-right: 12px solid transparent;
+    border-bottom: 20px solid #ff9500;
+    position: absolute; top: 25%; left: 50%; transform: translateX(-50%);
+}
+.ve-shape-btn[data-shape="star"]::before {
+    content: '★'; font-size: 24px; color: #ffcc00;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+
+/* Effect Grid */
+.ve-effect-grid,
+.ve-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.ve-effect-card,
+.ve-filter-card {
+    background: #fafafa;
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    padding: 12px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 11px;
+    font-weight: 600;
+}
+.ve-effect-card:hover,
+.ve-filter-card:hover {
+    background: #e6fbff;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+.ve-effect-card.active,
+.ve-filter-card.active {
+    background: #e0f7fa;
+    border-color: var(--primary);
+    color: var(--primary);
+}
+.ve-effect-card i,
+.ve-filter-card i {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 6px;
+    color: var(--text-dark);
+}
+.ve-filter-card.active i { color: var(--primary); }
+
+/* Transition Grid */
+.ve-transition-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.ve-transition-card {
+    background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    padding: 14px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 11px;
+    font-weight: 600;
+}
+.ve-transition-card:hover {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, #e6fbff, #c9f3f3);
+}
+.ve-transition-card i {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 6px;
+    color: var(--primary);
+}
+
+/* AI Buttons */
+.ve-ai-btn {
+    width: 100%;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-align: left;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.2s;
+    opacity: 0.7;
+}
+.ve-ai-btn:hover { transform: translateY(-1px); opacity: 1; }
+.ve-ai-btn i { font-size: 14px; width: 20px; text-align: center; }
+
+/* Preset Grid */
+.ve-preset-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.ve-preset-card {
+    background: #fafafa;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.ve-preset-card:hover {
+    background: #e6fbff;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+.ve-preset-card .ve-preset-icon {
+    font-size: 22px;
+    margin-bottom: 6px;
+    color: var(--primary);
+}
+.ve-preset-card strong {
+    display: block;
+    font-size: 11px;
+    color: var(--text-dark);
+}
+.ve-preset-card small {
+    font-size: 9px;
+    color: var(--text-light);
+}
+
+/* Export Info */
+.ve-export-info {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 12px;
+    margin-bottom: 14px;
+}
+
+.ve-info-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 4px 0;
+    color: var(--text-light);
+}
+.ve-info-line b { color: var(--text-dark); font-weight: 700; }
+
+.ve-hint {
+    font-size: 11px;
+    color: var(--text-light);
+    line-height: 1.4;
+    background: #f9f9f9;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+    margin-bottom: 12px;
+}
+
+/* ================= SCROLLBARS ================= */
+.ve-panel::-webkit-scrollbar,
+.ve-toolbar::-webkit-scrollbar,
+.ve-timeline::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.ve-panel::-webkit-scrollbar-thumb,
+.ve-toolbar::-webkit-scrollbar-thumb,
+.ve-timeline::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+    .ve-header { height: 50px; padding: 0 10px; }
+    .ve-logo span { display: none; }
+    .ve-title, .ve-sep { display: none; }
+
+    .ve-body {
+        flex-direction: column;
+    }
+
+    /* Toolbar → bottom horizontal */
+    .ve-toolbar {
+        width: 100%;
+        height: 62px;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 6px 4px;
+        border-right: none;
+        border-top: 1px solid var(--border);
+        order: 3;
+        flex-shrink: 0;
+    }
+
+    .ve-tool {
+        flex-direction: column;
+        min-width: 62px;
+        padding: 6px 4px;
+        margin: 0 2px;
+    }
+
+    .ve-tool i { font-size: 15px; }
+    .ve-tool span { font-size: 8px; }
+
+    /* Workspace */
+    .ve-workspace { order: 1; flex: 1; }
+
+    .ve-preview { min-height: 180px; }
+
+    .ve-timeline-wrap {
+        height: 130px;
+    }
+
+    .ve-track-video { height: 48px; }
+    .ve-track-audio { height: 34px; }
+
+    /* Panel */
+    .ve-panel {
+        width: 100%;
+        max-height: 42vh;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        order: 2;
+        padding: 12px;
+    }
+
+    .ve-media-list { grid-template-columns: repeat(4, 1fr); }
+    .ve-effect-grid,
+    .ve-filter-grid,
+    .ve-transition-grid { grid-template-columns: repeat(3, 1fr); }
+    .ve-sticker-grid { grid-template-columns: repeat(6, 1fr); }
+    .ve-preset-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 480px) {
+    .ve-media-list { grid-template-columns: repeat(3, 1fr); }
+    .ve-effect-grid,
+    .ve-filter-grid { grid-template-columns: repeat(2, 1fr); }
+}/* ================= VOLUME CONTROL ================= */
+.ve-volume-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fafafa;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+.ve-mute-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    flex-shrink: 0;
+}
+
+.ve-mute-btn:hover {
+    background: var(--primary-dark);
+    transform: scale(1.05);
+}
+
+.ve-mute-btn.muted {
+    background: #ff3b30;
+}
+
+.ve-volume-row input[type="range"] {
+    flex: 1;
+    accent-color: var(--primary);
+    cursor: pointer;
+    height: 5px;
+}
+
+.ve-volume-val {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 38px;
+    text-align: right;
+}
+
+/* ================= BACKGROUND AUDIO TRACKS ================= */
+.ve-bg-track {
+    background: #fafafa;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    transition: 0.2s;
+}
+
+.ve-bg-track:hover {
+    border-color: var(--primary);
+    background: #f5feff;
+}
+
+.ve-bg-track-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.ve-bg-track-icon {
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, #ff9500, #cc7700);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.ve-bg-track-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ve-bg-track-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ve-bg-track-dur {
+    font-size: 10px;
+    color: var(--text-light);
+    font-family: monospace;
+}
+
+.ve-bg-track-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.ve-bg-track-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    color: var(--text-dark);
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.ve-bg-track-btn:hover {
+    background: #e0e0e0;
+}
+
+.ve-bg-track-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+.ve-bg-track-btn.danger:hover {
+    background: #ffe5e5;
+    color: var(--danger);
+}
+
+.ve-bg-track-volume {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ve-bg-track-volume input[type="range"] {
+    flex: 1;
+    accent-color: var(--primary);
+    cursor: pointer;
+    height: 4px;
+}
+
+.ve-bg-track-volume span {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 32px;
+    text-align: right;
+}/* ================= OVERLAY LAYER (on preview) ================= */
+.ve-preview {
+    position: relative; /* Ensure overlay positions correctly */
+}
+
+.ve-overlay-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.ve-overlay-item {
+    position: absolute;
+    pointer-events: auto;
+    cursor: move;
+    user-select: none;
+    touch-action: none;
+    transition: box-shadow 0.15s;
+    border: 2px dashed transparent;
+    border-radius: 4px;
+}
+
+.ve-overlay-item.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(0,210,211,0.25);
+}
+
+.ve-overlay-item video,
+.ve-overlay-item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.ve-overlay-item .ov-resize {
+    position: absolute;
+    right: -8px;
+    bottom: -8px;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: se-resize;
+    display: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.ve-overlay-item.selected .ov-resize {
+    display: block;
+}
+
+/* ================= OVERLAY LIST (in panel) ================= */
+.ve-overlay-track {
+    background: #fafafa;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.ve-overlay-track:hover {
+    border-color: var(--primary);
+    background: #f5feff;
+}
+
+.ve-overlay-track.active {
+    border-color: var(--primary);
+    background: #e0f7fa;
+    box-shadow: 0 0 0 2px rgba(0,210,211,0.2);
+}
+
+.ve-overlay-track-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.ve-overlay-track-icon {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #5e5ce6, #4a48c9);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+.ve-overlay-track-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ve-overlay-track-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ve-overlay-track-timing {
+    font-size: 10px;
+    color: var(--text-light);
+    font-family: monospace;
+}
+
+.ve-overlay-track-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.ve-btn-row-2 {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* ================= SPLIT AT PLAYHEAD ================= */
+.ve-icon-btn.small span {
+    font-size: 8px;
+    font-weight: 700;
+}/* ================= TIMELINE (Advanced) ================= */
+
+.ve-timeline-wrap {
+    height: 200px;
+    background: #1a1a1a;
+    border-top: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.ve-timeline-header {
+    height: 40px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #222;
+    border-bottom: 1px solid #333;
+    color: #bbb;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+}
+
+.ve-timeline-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ve-timeline-actions .ve-icon-btn {
+    background: #333;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    font-size: 11px;
+}
+
+.ve-timeline-actions .ve-icon-btn:hover {
+    background: #444;
+    color: var(--primary);
+}
+
+.ve-timeline-timecode {
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+    color: var(--primary);
+    font-weight: 700;
+    margin-right: 8px;
+    letter-spacing: 0.5px;
+}
+
+/* Timeline Scroll Container */
+.ve-timeline-scroll {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    background: #1a1a1a;
+    scrollbar-width: thin;
+}
+
+.ve-timeline-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.ve-timeline-scroll::-webkit-scrollbar-track {
+    background: #0f0f0f;
+}
+
+.ve-timeline-scroll::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+}
+
+.ve-timeline-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* ================= TIME RULER (Scale) ================= */
+.ve-time-ruler {
+    height: 24px;
+    background: #252525;
+    position: relative;
+    border-bottom: 1px solid #333;
+    min-width: 100%;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.ve-time-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #444;
+    pointer-events: none;
+}
+
+.ve-time-marker.major {
+    background: #666;
+}
+
+.ve-time-marker-label {
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    font-size: 9px;
+    color: #999;
+    font-family: 'Consolas', monospace;
+    font-weight: 600;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.ve-time-marker-label.major {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ================= TRACKS ================= */
+.ve-timeline {
+    position: relative;
+    padding: 8px 0;
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ve-track {
+    height: 46px;
+    background: #252525;
+    border-radius: 6px;
+    display: flex;
+    gap: 3px;
+    padding: 3px;
+    position: relative;
+    min-width: 100%;
+    margin: 0 14px;
+    transition: 0.2s;
+}
+
+.ve-track-video { height: 60px; }
+.ve-track-audio { height: 40px; }
+
+/* ================= CLIP ================= */
+.ve-clip {
+    height: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    overflow: hidden;
+    position: relative;
+    transition: 0.2s;
+    min-width: 40px;
+    flex-shrink: 0;
+    border: 2px solid transparent;
+    user-select: none;
+    touch-action: none;
+}
+
+.ve-clip.video-clip {
+    background: linear-gradient(135deg, #00d2d3, #00a5a6);
+}
+
+.ve-clip.image-clip {
+    background: linear-gradient(135deg, #5e5ce6, #4a48c9);
+}
+
+.ve-clip.audio-clip {
+    background: linear-gradient(135deg, #ff9500, #cc7700);
+}
+
+.ve-clip.selected {
+    border-color: white;
+    box-shadow: 0 0 0 2px var(--primary), 0 4px 12px rgba(0,210,211,0.4);
+}
+
+.ve-clip:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.ve-clip-label {
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    right: 6px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.95);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.ve-clip-duration {
+    position: absolute;
+    bottom: 4px;
+    right: 6px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.85);
+    font-family: 'Consolas', monospace;
+    background: rgba(0,0,0,0.3);
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+
+/* ================= PLAYHEAD ================= */
+.ve-playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #ff3b30;
+    left: 14px;
+    pointer-events: none;
+    z-index: 20;
+    box-shadow: 0 0 8px rgba(255,59,48,0.8);
+}
+
+.ve-playhead-handle {
+    position: absolute;
+    top: -8px;
+    left: -6px;
+    width: 14px;
+    height: 14px;
+    background: #ff3b30;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #1a1a1a, 0 2px 6px rgba(0,0,0,0.4);
+    cursor: grab;
+    pointer-events: auto;
+}
+
+.ve-playhead-handle:active {
+    cursor: grabbing;
+    transform: scale(1.2);
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+    .ve-timeline-wrap {
+        height: 170px;
+    }
+
+    .ve-timeline-header {
+        height: 38px;
+        padding: 0 8px;
+    }
+
+    .ve-timeline-header > span:first-child {
+        display: none;
+    }
+
+    .ve-timeline-timecode {
+        font-size: 10px;
+        margin-right: 4px;
+    }
+
+    .ve-timeline-actions {
+        gap: 4px;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .ve-timeline-actions .ve-icon-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 11px;
+    }
+
+    .ve-time-ruler {
+        height: 22px;
+    }
+
+    .ve-time-marker-label {
+        font-size: 8px;
+    }
+
+    .ve-track {
+        height: 40px;
+        margin: 0 10px;
+    }
+
+    .ve-track-video { height: 52px; }
+    .ve-track-audio { height: 36px; }
+
+    .ve-clip-label {
+        font-size: 9px;
+    }
+
+    .ve-clip-duration {
+        font-size: 8px;
+        padding: 0px 3px;
+    }
+
+    .ve-playhead-handle {
+        width: 18px;
+        height: 18px;
+        top: -10px;
+        left: -8px;
+    }
+}/* ============================================================
+   FULL THEME INTEGRATION - VIDEO EDITOR
+   ============================================================ */
+
+/* Header */
+.ve-header {
+    background: var(--bg-header);
+    border-bottom-color: var(--border);
+    box-shadow: var(--shadow);
+}
+
+.ve-logo {
+    color: var(--text-dark);
+}
+
+.ve-logo i {
+    color: var(--primary);
+}
+
+.ve-sep {
+    color: var(--text-muted);
+}
+
+.ve-title {
+    color: var(--text-light);
+}
+
+.ve-icon-btn {
+    background: var(--bg-hover);
+    color: var(--text-dark);
+}
+
+.ve-icon-btn:hover {
+    background: var(--bg-active);
+    color: var(--primary);
+}
+
+.ve-icon-btn.danger:hover {
+    background: var(--danger-light);
+    color: var(--danger);
+}
+
+.ve-primary-btn {
+    background: var(--primary);
+    color: white;
+}
+
+.ve-primary-btn:hover {
+    background: var(--primary-dark);
+    box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+/* Toolbar */
+.ve-toolbar {
+    background: var(--bg-sidebar);
+    border-right-color: var(--border);
+}
+
+.ve-tool {
+    color: var(--text-light);
+}
+
+.ve-tool:hover {
+    background: var(--bg-hover);
+    color: var(--text-dark);
+}
+
+.ve-tool.active {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+/* Workspace */
+.ve-workspace {
+    background: var(--bg);
+}
+
+/* Preview */
+.ve-preview-wrap {
+    background: var(--preview-bg);
+}
+
+.ve-preview video {
+    background: #000;
+}
+
+.ve-empty-hint {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Playback Bar */
+.ve-playback-bar {
+    background: var(--preview-bar);
+    border-top-color: var(--border);
+}
+
+.ve-playback-bar .ve-icon-btn {
+    background: var(--bg-hover);
+    color: var(--text-dark);
+}
+
+.ve-playback-bar .ve-icon-btn:hover {
+    background: var(--bg-active);
+}
+
+.ve-time {
+    color: var(--text-light);
+}
+
+/* Panel */
+.ve-panel {
+    background: var(--bg-panel);
+    border-left-color: var(--border);
+}
+
+.ve-panel-view h3 {
+    color: var(--text-light);
+}
+
+/* Upload Buttons */
+.ve-upload-btn {
+    background: var(--bg-card);
+    border-color: var(--border);
+}
+
+.ve-upload-btn:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
+.ve-upload-btn i {
+    color: var(--primary);
+}
+
+.ve-upload-btn strong {
+    color: var(--text-dark);
+}
+
+.ve-upload-btn small {
+    color: var(--text-light);
+}
+
+/* Media List */
+.ve-media-item {
+    background: var(--bg-input);
+}
+
+.ve-media-item:hover {
+    border-color: var(--primary);
+}
+
+.ve-empty-msg {
+    color: var(--text-muted);
+}
+
+/* Controls */
+.ve-ctrl-group label {
+    color: var(--text-dark);
+}
+
+.ve-ctrl-group label span {
+    color: var(--primary);
+}
+
+.ve-ctrl-group textarea,
+.ve-select {
+    background: var(--bg-input);
+    border-color: var(--border);
+    color: var(--text-dark);
+}
+
+.ve-ctrl-group textarea:focus,
+.ve-select:focus {
+    border-color: var(--primary);
+}
+
+.ve-ctrl-group textarea::placeholder {
+    color: var(--text-muted);
+}
+
+/* Position Buttons */
+.ve-pos-btn {
+    background: var(--bg-input);
+    border-color: var(--border);
+    color: var(--text-dark);
+}
+
+.ve-pos-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary);
+}
+
+.ve-pos-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Stickers */
+.ve-sticker-item {
+    background: var(--bg-input);
+    border-color: var(--border);
+}
+
+.ve-sticker-item:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
+/* Shapes */
+.ve-shape-btn {
+    background: var(--bg-input);
+    border-color: var(--border);
+}
+
+.ve-shape-btn:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
+/* Effect/Filter Cards */
+.ve-effect-card,
+.ve-filter-card {
+    background: var(--bg-card);
+    border-color: var(--border);
+    color: var(--text-dark);
+}
+
+.ve-effect-card:hover,
+.ve-filter-card:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
+.ve-effect-card.active,
+.ve-filter-card.active {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.ve-effect-card i,
+.ve-filter-card i {
+    color: var(--text-dark);
+}
+
+/* Transition Cards */
+.ve-transition-card {
+    background: var(--gradient-dark);
+    border-color: var(--border);
+    color: var(--text-dark);
+}
+
+.ve-transition-card:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
+.ve-transition-card i {
+    color: var(--primary);
+}
+
+/* AI Buttons */
+.ve-ai-btn {
+    background: var(--gradient-purple);
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .ve-ai-btn,
+[data-theme="dark-gray"] .ve-ai-btn {
+    color: #1a1a1a;
+}
+
+/* Preset Cards */
+.ve-preset-card {
+    background: var(--bg-card);
+    border-color: var(--border);
+}
+
+.ve-preset-card:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
+.ve-preset-card .ve-preset-icon {
+    color: var(--primary);
+}
+
+.ve-preset-card strong {
+    color: var(--text-dark);
+}
+
+.ve-preset-card small {
+    color: var(--text-light);
+}
+
+/* Export Info */
+.ve-export-info {
+    background: var(--bg-card);
+    border-color: var(--border);
+}
+
+.ve-info-line {
+    color: var(--text-light);
+}
+
+.ve-info-line b {
+    color: var(--text-dark);
+}
+
+.ve-hint {
+    background: var(--bg-card);
+    color: var(--text-light);
+    border-left-color: var(--primary);
+}
+
+/* Timeline */
+.ve-timeline-wrap {
+    background: var(--timeline-bg);
+    border-top-color: var(--border);
+}
+
+.ve-timeline-header {
+    background: var(--timeline-header);
+    border-bottom-color: var(--border);
+    color: var(--text-light);
+}
+
+.ve-timeline-timecode {
+    color: var(--primary);
+}
+
+.ve-timeline-actions .ve-icon-btn {
+    background: var(--bg-hover);
+    color: var(--text-dark);
+}
+
+.ve-timeline-actions .ve-icon-btn:hover {
+    background: var(--bg-active);
+    color: var(--primary);
+}
+
+/* Timeline Scroll */
+.ve-timeline-scroll {
+    background: var(--timeline-bg);
+}
+
+.ve-timeline-scroll::-webkit-scrollbar-track {
+    background: var(--timeline-bg);
+}
+
+.ve-timeline-scroll::-webkit-scrollbar-thumb {
+    background: var(--scrollbar);
+}
+
+.ve-timeline-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* Time Ruler */
+.ve-time-ruler {
+    background: var(--timeline-ruler);
+    border-bottom-color: var(--border);
+}
+
+.ve-time-marker {
+    background: var(--border);
+}
+
+.ve-time-marker.major {
+    background: var(--text-muted);
+}
+
+.ve-time-marker-label {
+    color: var(--text-muted);
+}
+
+.ve-time-marker-label.major {
+    color: var(--primary);
+}
+
+/* Tracks */
+.ve-track {
+    background: var(--timeline-track);
+}
+
+/* Clips */
+.ve-clip.video-clip {
+    background: var(--clip-video);
+}
+
+.ve-clip.image-clip {
+    background: var(--clip-image);
+}
+
+.ve-clip.audio-clip {
+    background: var(--clip-audio);
+}
+
+.ve-clip.selected {
+    border-color: white;
+    box-shadow: 0 0 0 2px var(--primary), 0 4px 12px var(--primary-glow);
+}
+
+.ve-clip-label {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.ve-clip-duration {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Playhead */
+.ve-playhead {
+    background: var(--playhead);
+    box-shadow: 0 0 8px var(--playhead-glow);
+}
+
+.ve-playhead-handle {
+    background: var(--playhead);
+    box-shadow: 0 0 0 2px var(--timeline-bg), var(--shadow-md);
+}
+
+/* Volume Controls */
+.ve-volume-row {
+    background: var(--bg-card);
+    border-color: var(--border);
+}
+
+.ve-mute-btn {
+    background: var(--primary);
+    color: white;
+}
+
+.ve-mute-btn:hover {
+    background: var(--primary-dark);
+}
+
+.ve-mute-btn.muted {
+    background: var(--danger);
+}
+
+.ve-volume-val {
+    color: var(--primary);
+}
+
+/* Background Audio Tracks */
+.ve-bg-track {
+    background: var(--bg-card);
+    border-color: var(--border);
+}
+
+.ve-bg-track:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
+.ve-bg-track-name {
+    color: var(--text-dark);
+}
+
+.ve-bg-track-dur {
+    color: var(--text-light);
+}
+
+.ve-bg-track-btn {
+    background: var(--bg-hover);
+    color: var(--text-dark);
+}
+
+.ve-bg-track-btn:hover {
+    background: var(--bg-active);
+}
+
+.ve-bg-track-btn.danger:hover {
+    background: var(--danger-light);
+    color: var(--danger);
+}
+
+/* Overlay */
+.ve-overlay-track {
+    background: var(--bg-card);
+    border-color: var(--border);
+}
+
+.ve-overlay-track:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
+.ve-overlay-track.active {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-glow);
+}
+
+.ve-overlay-track-name {
+    color: var(--text-dark);
+}
+
+.ve-overlay-track-timing {
+    color: var(--text-light);
+}
+
+/* Audio Track Controls */
+.audio-track-controls {
+    background: var(--bg-card) !important;
+    border-color: var(--border) !important;
+}
+
+.audio-track-controls h3 {
+    color: var(--text-light) !important;
+}
+
+.audio-track-controls > div > div {
+    background: var(--bg-panel) !important;
+    color: var(--text-dark) !important;
+}
+
+.audio-track-controls > div > div > span {
+    color: var(--text-dark) !important;
+}
+
+/* Toast */
+.ve-toast {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Theme transition */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+    transition: 
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease !important;
+}

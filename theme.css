@@ -1,0 +1,622 @@
+/* ============================================================
+   YUCUT - COMPLETE THEME SYSTEM v2
+   4 Modes: Light • Dark • Light Blue • Dark Gray
+   FULL PAGE DYNAMIC THEMING
+   ============================================================ */
+
+/* ================= LIGHT (Default) ================= */
+:root,
+[data-theme="light"] {
+    /* Primary Colors */
+    --primary: #00d2d3;
+    --primary-dark: #00b5b6;
+    --primary-light: #e0f7fa;
+    --primary-glow: rgba(0, 210, 211, 0.3);
+    
+    /* Status Colors */
+    --danger: #ff3b30;
+    --danger-light: #ffe5e5;
+    --warning: #ff9500;
+    --warning-light: #fff3e0;
+    --success: #34c759;
+    --success-light: #e8f5e9;
+    --info: #5e5ce6;
+    --info-light: #e8e8ff;
+    
+    /* Text Colors */
+    --text-dark: #1a1a1a;
+    --text-medium: #444444;
+    --text-light: #666666;
+    --text-muted: #999999;
+    --text-inverse: #ffffff;
+    
+    /* Background Colors */
+    --bg: #f5f6f8;
+    --bg-main: #ffffff;
+    --bg-sidebar: #f5f5f5;
+    --bg-header: #ffffff;
+    --bg-panel: #ffffff;
+    --bg-card: #fafafa;
+    --bg-input: #fafafa;
+    --bg-hover: #f0f0f0;
+    --bg-active: #e8e8e8;
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+    
+    /* Border Colors */
+    --border: #e5e5e5;
+    --border-light: #f0f0f0;
+    --border-dark: #d0d0d0;
+    
+    /* Shadow Colors */
+    --shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+    
+    /* Special Areas */
+    --timeline-bg: #1a1a1a;
+    --timeline-header: #222222;
+    --timeline-track: #252525;
+    --timeline-ruler: #2a2a2a;
+    --preview-bg: #141414;
+    --preview-bar: #222222;
+    --canvas-bg: #ffffff;
+    --canvas-checker: #f7f7f7;
+    
+    /* Scrollbar */
+    --scrollbar: #cccccc;
+    --scrollbar-track: #f0f0f0;
+    --scrollbar-hover: #aaaaaa;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #00d2d3, #00b5b6);
+    --gradient-purple: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+    --gradient-success: linear-gradient(135deg, #34c759, #28a745);
+    --gradient-danger: linear-gradient(135deg, #ff3b30, #dc3545);
+    --gradient-dark: linear-gradient(135deg, #1a1a1a, #333333);
+    
+    /* Clip Colors */
+    --clip-video: linear-gradient(135deg, #00d2d3, #00a5a6);
+    --clip-image: linear-gradient(135deg, #5e5ce6, #4a48c9);
+    --clip-audio: linear-gradient(135deg, #ff9500, #cc7700);
+    
+    /* Playhead */
+    --playhead: #ff3b30;
+    --playhead-glow: rgba(255, 59, 48, 0.6);
+}
+
+/* ================= DARK ================= */
+[data-theme="dark"] {
+    /* Primary Colors */
+    --primary: #00d2d3;
+    --primary-dark: #00b5b6;
+    --primary-light: rgba(0, 210, 211, 0.15);
+    --primary-glow: rgba(0, 210, 211, 0.4);
+    
+    /* Status Colors */
+    --danger: #ff453a;
+    --danger-light: rgba(255, 69, 58, 0.15);
+    --warning: #ff9f0a;
+    --warning-light: rgba(255, 159, 10, 0.15);
+    --success: #30d158;
+    --success-light: rgba(48, 209, 88, 0.15);
+    --info: #7c7aff;
+    --info-light: rgba(124, 122, 255, 0.15);
+    
+    /* Text Colors */
+    --text-dark: #f5f5f5;
+    --text-medium: #d0d0d0;
+    --text-light: #a0a0a0;
+    --text-muted: #707070;
+    --text-inverse: #1a1a1a;
+    
+    /* Background Colors */
+    --bg: #121212;
+    --bg-main: #0d0d0d;
+    --bg-sidebar: #1a1a1a;
+    --bg-header: #1a1a1a;
+    --bg-panel: #1a1a1a;
+    --bg-card: #242424;
+    --bg-input: #2a2a2a;
+    --bg-hover: #2a2a2a;
+    --bg-active: #333333;
+    --bg-overlay: rgba(0, 0, 0, 0.75);
+    
+    /* Border Colors */
+    --border: #333333;
+    --border-light: #2a2a2a;
+    --border-dark: #444444;
+    
+    /* Shadow Colors */
+    --shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.6);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.7);
+    
+    /* Special Areas */
+    --timeline-bg: #0a0a0a;
+    --timeline-header: #151515;
+    --timeline-track: #1e1e1e;
+    --timeline-ruler: #222222;
+    --preview-bg: #080808;
+    --preview-bar: #151515;
+    --canvas-bg: #1a1a1a;
+    --canvas-checker: #222222;
+    
+    /* Scrollbar */
+    --scrollbar: #444444;
+    --scrollbar-track: #1a1a1a;
+    --scrollbar-hover: #555555;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #00d2d3, #00b5b6);
+    --gradient-purple: linear-gradient(135deg, #7c7aff, #5e5ce6);
+    --gradient-success: linear-gradient(135deg, #30d158, #28a745);
+    --gradient-danger: linear-gradient(135deg, #ff453a, #dc3545);
+    --gradient-dark: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+    
+    /* Clip Colors */
+    --clip-video: linear-gradient(135deg, #00d2d3, #009fa0);
+    --clip-image: linear-gradient(135deg, #7c7aff, #5e5ce6);
+    --clip-audio: linear-gradient(135deg, #ff9f0a, #cc7700);
+    
+    /* Playhead */
+    --playhead: #ff453a;
+    --playhead-glow: rgba(255, 69, 58, 0.8);
+}
+
+/* ================= LIGHT BLUE ================= */
+[data-theme="light-blue"] {
+    /* Primary Colors */
+    --primary: #0099cc;
+    --primary-dark: #0077aa;
+    --primary-light: #e0f4ff;
+    --primary-glow: rgba(0, 153, 204, 0.3);
+    
+    /* Status Colors */
+    --danger: #ff3b30;
+    --danger-light: #ffe5e5;
+    --warning: #ff9500;
+    --warning-light: #fff3e0;
+    --success: #34c759;
+    --success-light: #e8f5e9;
+    --info: #5e5ce6;
+    --info-light: #e8e8ff;
+    
+    /* Text Colors */
+    --text-dark: #0a2540;
+    --text-medium: #2a4a6a;
+    --text-light: #5a7a9a;
+    --text-muted: #8aaac0;
+    --text-inverse: #ffffff;
+    
+    /* Background Colors */
+    --bg: #e8f4f8;
+    --bg-main: #f0f8fc;
+    --bg-sidebar: #e0f0fa;
+    --bg-header: #ffffff;
+    --bg-panel: #ffffff;
+    --bg-card: #f5fafd;
+    --bg-input: #eaf6ff;
+    --bg-hover: #d8eef8;
+    --bg-active: #c8e8f5;
+    --bg-overlay: rgba(0, 50, 80, 0.5);
+    
+    /* Border Colors */
+    --border: #c8e0f0;
+    --border-light: #dceef8;
+    --border-dark: #a8d0e5;
+    
+    /* Shadow Colors */
+    --shadow: 0 1px 4px rgba(0, 100, 150, 0.08);
+    --shadow-md: 0 4px 12px rgba(0, 100, 150, 0.12);
+    --shadow-lg: 0 8px 30px rgba(0, 100, 150, 0.18);
+    --shadow-xl: 0 20px 40px rgba(0, 100, 150, 0.22);
+    
+    /* Special Areas */
+    --timeline-bg: #0a1a2a;
+    --timeline-header: #0f2233;
+    --timeline-track: #1a3040;
+    --timeline-ruler: #1e3548;
+    --preview-bg: #0a1520;
+    --preview-bar: #0f2233;
+    --canvas-bg: #ffffff;
+    --canvas-checker: #f0f8fc;
+    
+    /* Scrollbar */
+    --scrollbar: #a0c8e0;
+    --scrollbar-track: #e0f0fa;
+    --scrollbar-hover: #80b0d0;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #0099cc, #0077aa);
+    --gradient-purple: linear-gradient(135deg, #a0c4ff, #5e5ce6);
+    --gradient-success: linear-gradient(135deg, #34c759, #28a745);
+    --gradient-danger: linear-gradient(135deg, #ff3b30, #dc3545);
+    --gradient-dark: linear-gradient(135deg, #0a2540, #1a4060);
+    
+    /* Clip Colors */
+    --clip-video: linear-gradient(135deg, #0099cc, #0077aa);
+    --clip-image: linear-gradient(135deg, #5e5ce6, #4a48c9);
+    --clip-audio: linear-gradient(135deg, #ff9500, #cc7700);
+    
+    /* Playhead */
+    --playhead: #ff3b30;
+    --playhead-glow: rgba(255, 59, 48, 0.6);
+}
+
+/* ================= DARK GRAY ================= */
+[data-theme="dark-gray"] {
+    /* Primary Colors */
+    --primary: #00d2d3;
+    --primary-dark: #00b5b6;
+    --primary-light: rgba(0, 210, 211, 0.12);
+    --primary-glow: rgba(0, 210, 211, 0.35);
+    
+    /* Status Colors */
+    --danger: #ff453a;
+    --danger-light: rgba(255, 69, 58, 0.12);
+    --warning: #ff9f0a;
+    --warning-light: rgba(255, 159, 10, 0.12);
+    --success: #30d158;
+    --success-light: rgba(48, 209, 88, 0.12);
+    --info: #7c7aff;
+    --info-light: rgba(124, 122, 255, 0.12);
+    
+    /* Text Colors */
+    --text-dark: #e8e8e8;
+    --text-medium: #c0c0c0;
+    --text-light: #909090;
+    --text-muted: #606060;
+    --text-inverse: #1a1a1a;
+    
+    /* Background Colors */
+    --bg: #222222;
+    --bg-main: #1a1a1a;
+    --bg-sidebar: #252525;
+    --bg-header: #252525;
+    --bg-panel: #252525;
+    --bg-card: #2e2e2e;
+    --bg-input: #333333;
+    --bg-hover: #353535;
+    --bg-active: #404040;
+    --bg-overlay: rgba(0, 0, 0, 0.65);
+    
+    /* Border Colors */
+    --border: #3a3a3a;
+    --border-light: #303030;
+    --border-dark: #4a4a4a;
+    
+    /* Shadow Colors */
+    --shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.55);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.65);
+    
+    /* Special Areas */
+    --timeline-bg: #151515;
+    --timeline-header: #1e1e1e;
+    --timeline-track: #282828;
+    --timeline-ruler: #2c2c2c;
+    --preview-bg: #101010;
+    --preview-bar: #1e1e1e;
+    --canvas-bg: #2a2a2a;
+    --canvas-checker: #303030;
+    
+    /* Scrollbar */
+    --scrollbar: #505050;
+    --scrollbar-track: #252525;
+    --scrollbar-hover: #606060;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #00d2d3, #00b5b6);
+    --gradient-purple: linear-gradient(135deg, #7c7aff, #5e5ce6);
+    --gradient-success: linear-gradient(135deg, #30d158, #28a745);
+    --gradient-danger: linear-gradient(135deg, #ff453a, #dc3545);
+    --gradient-dark: linear-gradient(135deg, #333333, #222222);
+    
+    /* Clip Colors */
+    --clip-video: linear-gradient(135deg, #00d2d3, #009fa0);
+    --clip-image: linear-gradient(135deg, #7c7aff, #5e5ce6);
+    --clip-audio: linear-gradient(135deg, #ff9f0a, #cc7700);
+    
+    /* Playhead */
+    --playhead: #ff453a;
+    --playhead-glow: rgba(255, 69, 58, 0.75);
+}
+
+/* ============================================================
+   GLOBAL TRANSITIONS
+   ============================================================ */
+*,
+*::before,
+*::after {
+    transition: 
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        fill 0.25s ease,
+        stroke 0.25s ease;
+}
+
+/* Disable transitions for elements that shouldn't animate */
+.canvas,
+.canvas-el,
+.ve-clip,
+.ve-overlay-item,
+.ve-track,
+.ve-playhead,
+video,
+img,
+canvas,
+[class*="skeleton"],
+[class*="loading"] {
+    transition: none !important;
+}
+
+/* Allow specific transitions */
+.ve-clip,
+.canvas-el {
+    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+/* ============================================================
+   THEME SWITCHER COMPONENT
+   ============================================================ */
+.theme-switcher {
+    position: relative;
+    display: flex;
+    align-items: center;
+    z-index: 9999;
+}
+
+.theme-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+    background: var(--bg-hover);
+    color: var(--text-dark);
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--primary);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.theme-btn:hover {
+    background: var(--bg-active);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.theme-btn:hover::before {
+    opacity: 0.1;
+}
+
+.theme-btn i {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-btn:hover i {
+    transform: rotate(25deg) scale(1.1);
+}
+
+/* ============================================================
+   THEME DROPDOWN
+   ============================================================ */
+.theme-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 8px;
+    min-width: 200px;
+    box-shadow: var(--shadow-xl);
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.95);
+    transform-origin: top right;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-dropdown.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.theme-dropdown-header {
+    padding: 8px 12px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 6px;
+}
+
+.theme-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-option::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--primary);
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.theme-option:hover {
+    background: var(--bg-hover);
+}
+
+.theme-option:hover::before {
+    opacity: 0.06;
+}
+
+.theme-option.active {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.theme-option.active::after {
+    content: '✓';
+    margin-left: auto;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 14px;
+}
+
+.theme-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.theme-swatch::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+/* Swatch Colors - Enhanced */
+.theme-swatch.light {
+    background: linear-gradient(135deg, 
+        #ffffff 0%, #ffffff 40%, 
+        #f5f6f8 40%, #f5f6f8 100%);
+}
+
+.theme-swatch.dark {
+    background: linear-gradient(135deg, 
+        #1a1a1a 0%, #1a1a1a 40%, 
+        #0d0d0d 40%, #0d0d0d 100%);
+}
+
+.theme-swatch.light-blue {
+    background: linear-gradient(135deg, 
+        #ffffff 0%, #e0f0fa 40%, 
+        #0099cc 40%, #0099cc 100%);
+}
+
+.theme-swatch.dark-gray {
+    background: linear-gradient(135deg, 
+        #2a2a2a 0%, #2a2a2a 40%, 
+        #1a1a1a 40%, #1a1a1a 100%);
+}
+
+/* ============================================================
+   MOBILE RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .theme-dropdown {
+        right: -8px;
+        min-width: 180px;
+        border-radius: 14px;
+    }
+
+    .theme-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 13px;
+    }
+
+    .theme-option {
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+    .theme-swatch {
+        width: 24px;
+        height: 24px;
+        border-radius: 7px;
+    }
+}
+
+/* ============================================================
+   THEME-AWARE SCROLLBARS (Global)
+   ============================================================ */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-hover);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar) var(--scrollbar-track);
+}
+
+/* ============================================================
+   THEME-AWARE SELECTION
+   ============================================================ */
+::selection {
+    background: var(--primary);
+    color: white;
+}
+
+::-moz-selection {
+    background: var(--primary);
+    color: white;
+}
+
+/* ============================================================
+   THEME-AWARE FOCUS OUTLINE
+   ============================================================ */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}

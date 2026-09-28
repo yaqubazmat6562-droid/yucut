@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#00d2d3">
+
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Yucut - Professional video and image editor with AI features">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Yucut">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Yucut">
+
+    <title>Yucut - Dashboard</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-72.png">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme -->
+    <script src="theme.js"></script>
+
+    <!-- PWA Install Manager -->
+    <script src="pwa-install.js" defer></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- ================= SIDEBAR ================= -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-scissors"></i> <span>Yucut</span>
+            </div>
+
+            <button class="create-btn" id="create-new-btn">
+                <i class="fa-solid fa-plus"></i> Create new
+            </button>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-page="start">
+                    <i class="fa-solid fa-house"></i> Start
+                </a>
+                <a href="#" class="nav-item" data-page="recent">
+                    <i class="fa-regular fa-clock"></i> Recent drafts
+                </a>
+                <a href="#" class="nav-item" data-page="share">
+                    <i class="fa-solid fa-share-nodes"></i> Share history
+                </a>
+                <a href="#" class="nav-item" data-page="templates">
+                    <i class="fa-solid fa-mobile-screen"></i> Templates
+                </a>
+                <a href="#" class="nav-item" data-page="magic">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Magic tools
+                    <span class="badge-beta">Beta</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- ================= MAIN CONTENT ================= -->
+        <main class="main-content">
+            <!-- HEADER -->
+            <header class="top-header">
+                <div class="header-right">
+                    <i class="fa-solid fa-gift" id="gift-icon" title="Rewards"></i>
+                    <i class="fa-solid fa-desktop" id="desktop-icon" title="Desktop App"></i>
+                    <i class="fa-regular fa-bell" id="bell-icon" title="Notifications"></i>
+                    <i class="fa-regular fa-circle-question" id="help-icon" title="Help"></i>
+
+                    <!-- THEME SWITCHER -->
+                    <div class="theme-switcher">
+                        <button class="theme-btn" id="theme-btn" title="Change Theme">
+                            <i class="fa-solid fa-sun"></i>
+                        </button>
+                    </div>
+
+                    <!-- AUTH ICON (User Icon) -->
+                    <div class="auth-icon" id="auth-icon">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- HERO CARDS -->
+            <section class="hero-cards">
+                <div class="card card-blue" id="create-video-card">
+                    <i class="fa-solid fa-film"></i>
+                    <p>Create new video</p>
+                </div>
+                <div class="card card-purple" id="create-image-card">
+                    <i class="fa-solid fa-image"></i>
+                    <p>Create new image</p>
+                </div>
+                <div class="card card-white" id="autocut-card">
+                    <i class="fa-solid fa-bolt"></i>
+                    <p>AutoCut</p>
+                </div>
+                <div class="card card-white" id="script-video-card">
+                    <i class="fa-solid fa-robot"></i>
+                    <p>Script to video</p>
+                </div>
+                <div class="card card-white" id="share-files-card">
+                    <i class="fa-solid fa-share-from-square"></i>
+                    <p>Share files</p>
+                </div>
+            </section>
+
+            <!-- EMPTY STATE / QUICK START -->
+            <section class="quick-start-section">
+                <div class="quick-start-box">
+                    <i class="fa-solid fa-clapperboard"></i>
+                    <h2>Start Creating</h2>
+                    <p>Choose an option above to begin your project</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+       <!-- ================= AUTH MODAL ================= -->
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-box">
+            <span class="close-btn" id="close-auth">&times;</span>
+
+            <div id="login-section">
+                <h2>Login</h2>
+                <p class="subtitle">Welcome back to Yucut</p>
+                <form id="login-form">
+                    <div class="input-group">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" id="login-email" placeholder="Email" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                    </div>
+                    <p id="login-error" class="error-msg"></p>
+                    <button type="submit" class="auth-btn">Login</button>
+                </form>
+                <p class="switch-text">Don't have an account? <span id="go-to-signup">Sign Up</span></p>
+            </div>
+
+            <div id="signup-section" style="display: none;">
+                <h2>Sign Up</h2>
+                <p class="subtitle">Create your new account</p>
+                <form id="signup-form">
+                    <div class="input-group">
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" id="signup-name" placeholder="Your Name" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" id="signup-email" placeholder="Email" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="signup-password" placeholder="Password (min 4 chars)" required>
+                    </div>
+                    <p id="signup-error" class="error-msg"></p>
+                    <p id="signup-success" class="success-msg"></p>
+                    <button type="submit" class="auth-btn">Sign Up</button>
+                </form>
+                <p class="switch-text">Already have an account? <span id="go-to-login">Login</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts (only here — no duplicates) -->
+    <script src="script.js"></script>
+    <script>
+    // ================= PWA SERVICE WORKER REGISTRATION =================
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./service-worker.js')
+                .then(registration => {
+                    console.log('✅ Service Worker registered:', registration.scope);
+
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                console.log('🔄 New version available');
+                                if (confirm('🎉 New version available! Reload now?')) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    });
+                })
+                .catch(err => console.warn('❌ SW registration failed:', err));
+        });
+    }
+    </script>
+</body>
+</html>
